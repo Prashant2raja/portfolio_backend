@@ -3,28 +3,21 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const app = express();
-app.use(express.json()); 
-
-// ✅ Middleware to parse JSON (Fixes req.body undefined issue)
-app.use(express.json()); 
+app.use(express.json()); // ✅ Middleware for JSON parsing
 app.use(cors());
 
 const Message = require('./models/message');
-const mongoURI = 'mongodb://localhost:27017/portfolio';
 
-// ✅ Connect to MongoDB
-mongoose.connect(mongoURI, {
-  dbName: "portfolio",
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => console.log("MongoDB Connected"))
-.catch(err => console.error("MongoDB Connection Error:", err));
+const mongoURI = 'mongodb+srv://prashantsingh:Raja1234resham@portfolio.xkvga.mongodb.net/portfolio?retryWrites=true&w=majority';
+
+// ✅ Connect to MongoDB (Remove deprecated options)
+mongoose.connect(mongoURI, { dbName: "portfolio" })
+    .then(() => console.log("MongoDB Connected"))
+    .catch(err => console.error("MongoDB Connection Error:", err));
 
 app.post('/api/messages', async (req, res) => {
     try {
         const { name, email, message } = req.body;
-
         if (!name || !email || !message) {
             return res.status(400).json({ error: 'All fields are required' });
         }
@@ -33,8 +26,7 @@ app.post('/api/messages', async (req, res) => {
         await newMessage.save();
 
         res.status(201).json({ success: true, message: 'Message sent successfully' });
-    }
-    catch (err) {
+    } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Internal Server Error' });
     }
