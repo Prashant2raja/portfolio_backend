@@ -5,8 +5,6 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
-  "prebuild": "git submodule update --init --recursive",
-  "build": "your-build-command"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +17,6 @@
     "mongoose": "^8.10.1"
   },
   "engines": {
-     "node": "18.x"
+     "node": "16.x"
   }
 }
